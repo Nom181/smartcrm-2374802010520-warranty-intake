@@ -1,6 +1,6 @@
 # Smart CRM – Tiếp nhận và phân loại yêu cầu bảo hành
 
-**Sinh viên:** Võ Minh Triều – MSSV: 23748010520
+**Sinh viên:** Võ Minh Triều – MSSV: 2374802010520
 **Track:** SE
 **Học phần:** Chuyên đề Tốt nghiệp 1 – Trường ĐH Văn Lang
 
