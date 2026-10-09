@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Architecture-L2" id="arch-l2">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="l1" value="LỚP TRÌNH BÀY (React + Express Controller)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=10;fontStyle=1;fillColor=#e8f1fb;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="900" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="b100" value="[Màn hình Tạo phiếu bảo hành]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b101" value="[Màn hình Danh sách phiếu]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="275" y="80" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b102" value="[Màn hình Chi tiết phiếu]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="490" y="80" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b103" value="CustomerController, WarrantyRequestController" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="705" y="80" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" value="LỚP NGHIỆP VỤ (Service) – toàn bộ quy tắc nằm ở đây" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=10;fontStyle=1;fillColor=#eaf6ea;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="900" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="b104" value="CustomerService (tra cứu, tạo khách)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="60" y="240" width="276" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b105" value="WarrantyRequestService (ghi nhận, phân loại, mức ưu tiên)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="346" y="240" width="276" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b106" value="DeadlineService (tra SLA, sinh hạn cam kết xử lý)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="632" y="240" width="276" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="l3" value="LỚP TRUY CẬP DỮ LIỆU (Repository)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=10;fontStyle=1;fillColor=#fdf3e1;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="900" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="b107" value="CustomerRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="60" y="400" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b108" value="DeviceRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="275" y="400" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b109" value="WarrantyRequestRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="490" y="400" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b110" value="SlaRuleRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="705" y="400" width="205" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" value="LỚP LƯU TRỮ – MySQL (warranty_intake)" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=10;fontStyle=1;fillColor=#f3e8f7;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="900" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="b111" value="customer · device · warranty_request · issue_category · sla_rule · request_status_log" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="60" y="560" width="850" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="a0" value="HTTP + JSON (docs/api-contract.md)" style="endArrow=block;html=1;strokeWidth=2;fontStyle=2;" edge="1" parent="1" source="l1" target="l2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="gọi qua giao diện Repository" style="endArrow=block;html=1;strokeWidth=2;fontStyle=2;" edge="1" parent="1" source="l2" target="l3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="SQL (truy vấn tham số hóa)" style="endArrow=block;html=1;strokeWidth=2;fontStyle=2;" edge="1" parent="1" source="l3" target="l4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="CHÚ THÍCH: [ ] = màn hình; mũi tên = hướng phụ thuộc MỘT CHIỀU (lớp trên gọi lớp dưới, không ngược lại).&lt;br&gt;NGOÀI PHẠM VI (WON&#39;T): xử lý kỹ thuật sửa chữa thực tế, quản lý kho phụ tùng, thanh toán / hóa đơn bảo hành." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="900" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
