@@ -23,12 +23,12 @@ Thuật ngữ dùng thống nhất trong mọi sơ đồ: **phiếu bảo hành*
 | # | Trên màn hình | Cột trong ERD | Nguồn |
 |---|---|---|---|
 | 1 | Số điện thoại | `customer.phone` (UNIQUE) | FR1 · US1 |
-| 2 | Họ tên khách | `customer.full_name` | FR1/FR2 · US1, US2 |
-| 3 | Số serial thiết bị | `device.serial_no` (UNIQUE) | FR3 · US3 |
-| 4 | Mẫu thiết bị | `device.model_name` | FR3 · US3 |
-| 5 | Mô tả lỗi | `warranty_request.issue_desc` | FR3 · US4 |
-| 6 | Nhóm sự cố | `warranty_request.category_id` → `issue_category.name` | FR4 · US5 |
-| 7 | Mức ưu tiên | `warranty_request.priority` | FR5 · US6 |
+| 2 | Họ tên khách | `customer.full_name` | FR1/FR2 · US1 |
+| 3 | Số serial thiết bị | `device.serial_no` (UNIQUE) | FR3 · US2 |
+| 4 | Mẫu thiết bị | `device.model_name` | FR3 · US2 |
+| 5 | Mô tả lỗi | `warranty_request.issue_desc` | FR3 · US3 |
+| 6 | Nhóm sự cố | `warranty_request.category_id` → `issue_category.name` | FR4 · US4 |
+| 7 | Mức ưu tiên | `warranty_request.priority` | FR5 · US5 |
 | 8 | Thông báo không tìm thấy khách hàng | — (không lưu) | UC1 · luồng ngoại lệ |
 | 9 | Nút "Tạo phiếu" | INSERT `warranty_request` + `request_status_log` | UC1–UC6 |
 | 10 | Mã phiếu | `warranty_request.request_id` | FR7 |
@@ -37,9 +37,9 @@ Thuật ngữ dùng thống nhất trong mọi sơ đồ: **phiếu bảo hành*
 | 13 | Nhóm sự cố | `issue_category.name` | FR4 |
 | 14 | Mức ưu tiên | `warranty_request.priority` | FR5 |
 | 15 | Trạng thái | `warranty_request.status` (NEW / CLASSIFIED / RECEIVED) | FR7 |
-| 16 | Hạn cam kết xử lý | `warranty_request.committed_deadline` | FR6 · US7 |
+| 16 | Hạn cam kết xử lý | `warranty_request.committed_deadline` | FR6 · US6 |
 | 17 | Thông báo thiếu phân loại | — (không lưu) | UC7 · ngoại lệ tại bước 2 |
-| 18 | Lọc theo trạng thái | `warranty_request.status` | FR7 · US8 |
+| 18 | Lọc theo trạng thái | `warranty_request.status` | FR7 · US7 |
 | 19 | Bấm một dòng mở chi tiết | — | UC8 |
 
 **Kiểm hai chiều:** mọi trường trên màn hình đều có cột trong ERD. Ngược lại, các cột NOT NULL đều được nhập hoặc tự sinh: `customer` (phone, full_name nhập; created_at tự sinh), `device` (serial_no, model_name nhập), `warranty_request` (customer_id, device_id từ bước tra cứu và ghi nhận thiết bị; issue_desc nhập; status, received_at tự sinh).

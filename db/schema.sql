@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS warranty_intake
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE warranty_intake;
 
--- 1. Khach hang (US1, US2) ------------------------------------------
+-- 1. Khach hang (US1) ------------------------------------------
 CREATE TABLE customer (
   customer_id  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   phone        CHAR(10)        NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE customer (
   UNIQUE KEY uq_customer_phone (phone)
 ) ENGINE=InnoDB;
 
--- 2. Thiet bi (US3) -------------------------------------------------
+-- 2. Thiet bi (US2) -------------------------------------------------
 CREATE TABLE device (
   device_id      BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   serial_no      VARCHAR(50)     NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE device (
   UNIQUE KEY uq_device_serial (serial_no)
 ) ENGINE=InnoDB;
 
--- 3. Nhom su co (US5) - danh muc nam trong CSDL, khong viet cung trong ma
+-- 3. Nhom su co (US4) - danh muc nam trong CSDL, khong viet cung trong ma
 CREATE TABLE issue_category (
   category_id  SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   code         VARCHAR(30)       NOT NULL,   -- HARDWARE, SOFTWARE, WEAR_AND_TEAR
@@ -38,7 +38,7 @@ CREATE TABLE issue_category (
   UNIQUE KEY uq_issue_category_code (code)
 ) ENGINE=InnoDB;
 
--- 4. Quy tac SLA (US7) - gio cam ket theo (nhom su co, muc uu tien) ---
+-- 4. Quy tac SLA (US6) - gio cam ket theo (nhom su co, muc uu tien) ---
 CREATE TABLE sla_rule (
   sla_rule_id  SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   category_id  SMALLINT UNSIGNED NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE sla_rule (
     FOREIGN KEY (category_id) REFERENCES issue_category (category_id)
 ) ENGINE=InnoDB;
 
--- 5. Phieu bao hanh (US3-US7) ----------------------------------------
+-- 5. Phieu bao hanh (US2-US6) ----------------------------------------
 CREATE TABLE warranty_request (
   request_id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   customer_id         BIGINT UNSIGNED NOT NULL,
@@ -61,14 +61,14 @@ CREATE TABLE warranty_request (
   priority            ENUM('URGENT','NORMAL','LOW') NULL,
   status              ENUM('NEW','CLASSIFIED','RECEIVED') NOT NULL DEFAULT 'NEW',
   received_at         DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  committed_deadline  DATETIME        NULL,        -- han cam ket xu ly (US7)
+  committed_deadline  DATETIME        NULL,        -- han cam ket xu ly (US6)
   PRIMARY KEY (request_id),
   CONSTRAINT fk_request_customer FOREIGN KEY (customer_id) REFERENCES customer (customer_id),
   CONSTRAINT fk_request_device   FOREIGN KEY (device_id)   REFERENCES device (device_id),
   CONSTRAINT fk_request_category  FOREIGN KEY (category_id) REFERENCES issue_category (category_id)
 ) ENGINE=InnoDB;
 
--- 6. Lich su trang thai phieu (US8 - xem trang thai) -----------------
+-- 6. Lich su trang thai phieu (US7 - xem trang thai) -----------------
 CREATE TABLE request_status_log (
   log_id      BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   request_id  BIGINT UNSIGNED NOT NULL,

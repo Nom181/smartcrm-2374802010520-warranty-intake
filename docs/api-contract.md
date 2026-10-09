@@ -2,7 +2,7 @@
 
 **Sinh viên:** Võ Minh Triều – MSSV: 2374802010520
 
-Các endpoint dưới đây phục vụ 3 User Story MUST: US1, US5, US7.
+Các endpoint dưới đây phục vụ 3 User Story MUST: US1, US4, US6.
 
 ---
 
@@ -11,8 +11,8 @@ Các endpoint dưới đây phục vụ 3 User Story MUST: US1, US5, US7.
 | Endpoint | Method | Mục đích | Truy vết |
 |---|---|---|---|
 | `/api/customers/search?phone=...` | GET | Tra cứu khách hàng theo số điện thoại | US1 |
-| `/api/warranty-requests/:id/classify` | PATCH | Phân loại nhóm sự cố cho phiếu bảo hành | US5 |
-| `/api/warranty-requests/:id/commit-deadline` | POST | Sinh hạn cam kết xử lý | US7 |
+| `/api/warranty-requests/:id/classify` | PATCH | Phân loại nhóm sự cố cho phiếu bảo hành | US4 |
+| `/api/warranty-requests/:id/commit-deadline` | POST | Sinh hạn cam kết xử lý | US6 |
 
 ---
 
@@ -126,7 +126,7 @@ Sinh hạn cam kết xử lý cho phiếu bảo hành đã được phân loại
 | Endpoint | User Story |
 |---|---|
 | GET /api/customers/search | US1 |
-| PATCH /api/warranty-requests/:id/classify | US5 |
-| POST /api/warranty-requests/:id/commit-deadline | US7 |
+| PATCH /api/warranty-requests/:id/classify | US4 |
+| POST /api/warranty-requests/:id/commit-deadline | US6 |
 
 Mỗi endpoint đều truy vết được về đúng 1 User Story MUST trong bảng truy vết của SRS.
