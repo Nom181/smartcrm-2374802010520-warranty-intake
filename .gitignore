@@ -1,24 +1,14 @@
-# Bí mật - KHÔNG BAO GIỜ commit
+# Bí mật và cấu hình riêng của máy
 .env
+.env.*
+!.env.example
 
-# Dependencies & build
+# Thư viện và sản phẩm build
 node_modules/
-bin/
-obj/
-target/
 dist/
-__pycache__/
-.venv/
-venv/
+build/
 
-# Dữ liệu & model lớn
-data/raw/
-models/*.pkl
-models/*.pt
-
-# IDE / OS
-.vscode/
-.idea/
+# Nhật ký và tệp tạm
+*.log
 .DS_Store
 Thumbs.db
-

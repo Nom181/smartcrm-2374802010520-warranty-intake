@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="UseCaseDiagram-L2" id="uc-diagram-1">
+    <mxGraphModel dx="900" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="boundary" value="Hệ thống Tiếp nhận và Phân loại Yêu cầu Bảo hành" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=14;fontStyle=1;fillColor=none;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="180" y="40" width="560" height="560" as="geometry" /></mxCell>
+        <mxCell id="actor1" value="Nhân viên tiếp nhận" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=12;" vertex="1" parent="1"><mxGeometry x="30" y="240" width="30" height="60" as="geometry" /></mxCell>
+        <mxCell id="actor2" value="Quản lý trung tâm" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=12;" vertex="1" parent="1"><mxGeometry x="780" y="470" width="30" height="60" as="geometry" /></mxCell>
+        <mxCell id="uc1" value="UC1&#10;Tra cứu khách hàng&#10;theo số điện thoại" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1"><mxGeometry x="220" y="80" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="uc2" value="UC2&#10;Tạo hồ sơ&#10;khách hàng mới" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1"><mxGeometry x="470" y="80" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="uc3" value="UC3&#10;Ghi nhận thiết bị&#10;cần bảo hành" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1"><mxGeometry x="220" y="170" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="uc4" value="UC4&#10;Ghi nhận mô tả lỗi" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1"><mxGeometry x="470" y="170" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="uc5" value="UC5&#10;Phân loại nhóm sự cố" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1"><mxGeometry x="220" y="260" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="uc6" value="UC6&#10;Xác định mức&#10;ưu tiên xử lý" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1"><mxGeometry x="470" y="260" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="uc7" value="UC7&#10;Sinh hạn cam kết&#10;xử lý" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="220" y="350" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="uc8" value="UC8&#10;Xem danh sách&#10;yêu cầu bảo hành" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" vertex="1" parent="1"><mxGeometry x="470" y="440" width="170" height="70" as="geometry" /></mxCell>
+        <mxCell id="e1" style="endArrow=none;html=1;" edge="1" parent="1" source="actor1" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="endArrow=none;html=1;" edge="1" parent="1" source="actor1" target="uc3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="endArrow=none;html=1;" edge="1" parent="1" source="actor1" target="uc4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="endArrow=none;html=1;" edge="1" parent="1" source="actor1" target="uc5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" style="endArrow=none;html=1;" edge="1" parent="1" source="actor1" target="uc6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="endArrow=none;html=1;" edge="1" parent="1" source="actor1" target="uc7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="endArrow=none;html=1;" edge="1" parent="1" source="actor2" target="uc8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" value="&lt;&lt;extend&gt;&gt;" style="endArrow=open;dashed=1;html=1;fontSize=10;" edge="1" parent="1" source="uc2" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="legend" value="CHÚ THÍCH:&lt;br&gt;• Hình người = actor (nằm NGOÀI ranh giới hệ thống)&lt;br&gt;• Hình elip = use case (nằm TRONG ranh giới)&lt;br&gt;• Đường liền = actor tham gia use case&lt;br&gt;• Mũi tên nét đứt &amp;lt;&amp;lt;extend&amp;gt;&amp;gt; = UC2 chỉ xảy ra khi UC1 không tìm thấy khách hàng&lt;br&gt;• Elip nét đậm = use case quan trọng nhất (UC7), đặc tả chi tiết trong báo cáo" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=11;" vertex="1" parent="1"><mxGeometry x="180" y="620" width="560" height="110" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
