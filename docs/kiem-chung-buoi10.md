@@ -15,7 +15,7 @@ Bản clone sạch từ GitHub (`git clone` + `git checkout v0.2`), CSDL riêng,
 
 Lưu ý khi thử: `db:setup` cần tài khoản MySQL có quyền tạo CSDL (XAMPP dùng `root`, mật khẩu trống là đủ).
 
-**[Em tự điền]** Lần em tự clone và chạy trên máy em: ngày ___, bước nào lỗi hoặc phải đoán: ___
+Lần em tự clone và chạy trên máy em (ngày 24/10/2026, thư mục Desktop\thu-clone): `npm test` được 50 PASS, `npm run db:setup` chạy xong (migrate 2 tệp, seed 2 tệp), `npm run test:integration` được 5 PASS, 0 FAIL. Bước phải tự làm thêm: em phải tự bật MySQL trong XAMPP trước khi chạy `db:setup`; README đã ghi ở Bước 3 nên không phải đoán.
 
 ## 2. Đối chiếu checklist 10 mục
 
