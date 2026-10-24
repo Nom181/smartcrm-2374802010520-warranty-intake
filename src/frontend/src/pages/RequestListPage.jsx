@@ -97,7 +97,7 @@ export default function RequestListPage() {
       >
         {(r) => (
           <>
-            <table className="table">
+            <div className="table-wrap"><table className="table">
               <thead>
                 <tr><th>Mã</th><th>Khách hàng</th><th>Thiết bị</th><th>Nhóm sự cố</th><th>Ưu tiên</th><th>Trạng thái</th><th>Hạn cam kết</th></tr>
               </thead>
@@ -114,7 +114,7 @@ export default function RequestListPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
             <div className="pager">
               <span className="muted">Trang {r.meta.page}/{r.meta.totalPages} · {r.meta.total} phiếu{filtering ? ' khớp bộ lọc' : ''}</span>
               <button type="button" className="btn" disabled={page <= 1} onClick={() => update({ page: page - 1 })}>Trang trước</button>

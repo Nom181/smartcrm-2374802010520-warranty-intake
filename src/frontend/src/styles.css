@@ -53,3 +53,7 @@ input:focus, select:focus, textarea:focus, .btn:focus-visible { outline: 3px sol
 @media (max-width: 640px) { .facts { grid-template-columns: 1fr; } .table { font-size: .85rem; } }
 .state-inline { background: var(--surface); border: 1px dashed var(--line); border-radius: 8px; padding: .5rem .9rem; margin: 0 0 1rem; color: var(--muted); }
 .state-inline .btn { padding: .15rem .6rem; margin-left: .5rem; }
+/* Khung hẹp (~375px): bảng cuộn ngang TRONG khung của nó, trang không bị tràn ngang. */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+.table-wrap .table { min-width: 560px; }
+@media (max-width: 640px) { .page-head { flex-wrap: wrap; gap: .5rem; } .filters { flex-wrap: wrap; } .filters label, .filters input, .filters select { min-width: 0; max-width: 100%; } }
