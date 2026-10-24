@@ -14,6 +14,17 @@ const SELECT_REQUEST = `
     JOIN device d ON d.device_id = r.device_id
     LEFT JOIN issue_category ic ON ic.category_id = r.category_id`;
 
+// HỢP ĐỒNG DỮ LIỆU (ranh giới repository -> service -> API -> giao diện): MỘT phiếu bảo hành.
+// Hàm này là chỗ DUY NHẤT biết tên cột của bảng; tầng trên không bao giờ đọc tên cột SQL.
+//   requestId, customerId, deviceId : số nguyên, luôn có
+//   issueDesc                       : chuỗi, luôn có, tối đa 1000 ký tự (QT9)
+//   categoryId, category            : null khi CHƯA phân loại; có thì category = { code, name }
+//   priority                        : 'URGENT' | 'NORMAL' | 'LOW' | null (chưa chọn)
+//   status                          : 'NEW' | 'CLASSIFIED' | 'RECEIVED', luôn có (QT5)
+//   receivedAt, committedDeadline   : thời điểm UTC (Date), null khi chưa tiếp nhận / chưa sinh hạn
+//   customer                        : { fullName, phone }; device: { serialNo, modelName }, luôn có
+// KHI SAI: row rỗng/null -> trả null (service ném KHONG_TIM_THAY_PHIEU -> 404), không ném lỗi thô.
+// Đổi hợp đồng: thêm trường song song -> chuyển từng bên gọi -> mới xoá trường cũ (xem docs/hop-dong-du-lieu.md).
 function toRequest(row) {
   if (!row) return null;
   return {
@@ -170,3 +181,6 @@ class WarrantyRequestRepository {
 }
 
 module.exports = WarrantyRequestRepository;
+
+// Xuất riêng hàm chuyển đổi để kiểm thử hợp đồng (tests/04-hop-dong.test.js).
+module.exports.toRequest = toRequest;

@@ -21,7 +21,13 @@ function createErrorHandler(logger = console) {
       const httpStatus = HTTP_BY_CODE[err.code];
       if (httpStatus) {
         const body = { error: err.code, message: err.message };
-        if (err.chiTiet !== undefined) body.chi_tiet = err.chiTiet;
+        if (err.chiTiet !== undefined) {
+          body.chi_tiet = err.chiTiet; // giữ nguyên để bên gọi cũ không vỡ (bước "mở rộng" của TD-13)
+          // Hợp đồng lỗi thống nhất: error + message + fields (tên trường -> lý do), theo tài liệu buổi 9.
+          if (Array.isArray(err.chiTiet)) {
+            body.fields = Object.fromEntries(err.chiTiet.map((x) => [x.truong, x.ly_do]));
+          }
+        }
         return res.status(httpStatus).json(body);
       }
     }
