@@ -57,3 +57,4 @@ Không cắt tính năng nào so với phạm vi BT2 (xem `docs/thay-doi-thiet-k
 - Bước README cần sửa: ___
 - Rủi ro cho BT2: ___
 - Em đã xử lý thế nào: ___
+Chưa có kết quả peer review. Đã nhờ bạn Bảo clone và chạy theo README; sẽ bổ sung khi bạn ấy tạo xong Issue.
