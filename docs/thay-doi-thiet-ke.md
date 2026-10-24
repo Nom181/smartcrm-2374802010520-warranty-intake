@@ -81,3 +81,15 @@ Bảng thuật ngữ của SRS được giữ nguyên trong mã (`warranty_reque
 - **Thay đổi gì:** `DATETIME` lưu theo UTC; giao diện đổi sang giờ địa phương của trình duyệt. Môi trường phát triển dùng MariaDB (đi kèm XAMPP); câu lệnh SQL dùng cú pháp chung của MySQL/MariaDB.
 - **Vì sao:** Tránh sai lệch giờ giữa máy chủ và trình duyệt khi cộng giờ SLA.
 - **Ảnh hưởng:** `src/backend/db.js` (`timezone: 'Z'`), README mục 2. Chỉ đã thử trên MariaDB 10.11; chưa thử trên MySQL 8.
+
+## Điều chỉnh sau tài liệu Buổi 9–10
+
+### TD-13 Thêm trường `fields` vào lỗi API
+- **Thay đổi gì:** Lỗi định dạng trả thêm `fields` (tên trường → lý do) theo hợp đồng lỗi của tài liệu buổi 9. Trường cũ `chi_tiet` vẫn giữ.
+- **Vì sao:** Thống nhất `error` + `message` + `fields` cho mọi bên gọi; làm theo quy trình mở rộng → chuyển → thu hẹp để giao diện hiện tại không vỡ.
+- **Ảnh hưởng:** `middleware/error-handler.js`, `tests/04-hop-dong.test.js`, `docs/hop-dong-du-lieu.md`. Bước "chuyển" (giao diện đọc `fields`) và bước "thu hẹp" (bỏ `chi_tiet`) để lại cho Sprint sau; giao diện hiện vẫn đọc `chi_tiet`.
+
+### TD-14 Viết hợp đồng dữ liệu tường minh và cách lưu token
+- **Thay đổi gì:** Thêm comment hợp đồng (hình dạng, ý nghĩa, hành vi khi sai) ở `toRequest`; thêm `docs/hop-dong-du-lieu.md`, `src/frontend/.env.example`, và ghi cách lưu token cùng hạn chế vào README mục 7.
+- **Vì sao:** Biến hợp đồng ngầm thành hợp đồng tường minh; đổi tên một cột chỉ phải sửa một chỗ.
+- **Ảnh hưởng:** `warranty-request.repository.js` (xuất thêm `toRequest` để kiểm thử), README mục 5 và 7.

@@ -80,7 +80,7 @@ Kiểm tra nhanh API còn sống: `curl localhost:3000/api/health` → `{"status
 
 | Lệnh | Làm gì |
 |---|---|
-| `npm test` | 43 kiểm thử, ba loại: **luồng đúng**, **giá trị biên**, **dữ liệu sai** (`tests/01-…`, `02-…`, `03-…`). Dùng repository giả nên không cần CSDL và không phụ thuộc dữ liệu trên máy |
+| `npm test` | 50 kiểm thử, bốn nhóm: **luồng đúng**, **giá trị biên**, **dữ liệu sai** (`tests/01-…`, `02-…`, `03-…`) và **hợp đồng ở ranh giới** (`tests/04-…`). Dùng repository giả nên không cần CSDL và không phụ thuộc dữ liệu trên máy |
 | `npm run test:integration` | 5 kiểm thử cần MySQL đang chạy, dùng CSDL riêng `warranty_intake_test` (kiểm tra migration hai lần, seed hai lần không nhân đôi, repository MySQL thật). Tài khoản trong `.env` cần quyền tạo/xoá CSDL đó |
 
 Phép thử ranh giới tầng (30 giây) – lệnh sau không được in ra dòng nào:
@@ -142,6 +142,10 @@ curl -i "localhost:3000/api/customers/lookup?phone=091234567" -H "Authorization:
 
 Lệnh thứ hai gửi số điện thoại 9 chữ số nên nhận `400 DU_LIEU_KHONG_HOP_LE` kèm tên trường `phone`.
 
+**Định dạng lỗi chung của API:** mọi lỗi có `error` (mã máy đọc), `message` (câu tiếng Việt cho người dùng) và, với lỗi định dạng, `fields` (tên trường → lý do). Lỗi người dùng trả 4xx, lỗi hệ thống trả 500/503 với thông báo chung, không lộ chi tiết kỹ thuật. Bảng đầy đủ và hợp đồng dữ liệu của phiếu: `docs/hop-dong-du-lieu.md`.
+
+**Cấu hình giao diện:** địa chỉ API đọc từ biến `VITE_API_BASE` (mẫu ở `src/frontend/.env.example`). Mặc định `/api`, Vite chuyển sang `http://localhost:3000`, nên chạy theo mục 3 không cần chỉnh gì. Backend phải chạy trước giao diện.
+
 ## 6. Trạng thái hiện tại (v0.2)
 
 - [x] Migration dựng được CSDL từ trống; chạy lại lần hai không lỗi; seed không nhân đôi
@@ -149,7 +153,7 @@ Lệnh thứ hai gửi số điện thoại 9 chữ số nên nhận `400 DU_LIE
 - [x] Quy tắc nghiệp vụ: QT1 (số điện thoại), QT2 (serial, mô tả lỗi), QT3 (đủ phân loại mới sinh hạn), QT4 (hạn = tiếp nhận + giờ SLA), QT5 (NEW → CLASSIFIED → RECEIVED + lịch sử)
 - [x] Đăng nhập cơ bản, phân quyền STAFF / MANAGER
 - [x] Bốn màn hình React gọi API thật qua `api/client.js`; ba trạng thái đang tải / rỗng (chưa có dữ liệu, bộ lọc không ra kết quả) / lỗi có nút Thử lại
-- [x] 43 kiểm thử PASS bằng một lệnh (`npm test`) + 5 kiểm thử tích hợp
+- [x] 50 kiểm thử PASS bằng một lệnh (`npm test`) + 5 kiểm thử tích hợp
 - [ ] Chưa có Dockerfile / docker-compose (mức "được đánh giá cao" của đề, không bắt buộc)
 - [ ] Chưa làm (ngoài phạm vi BT2): tài liệu API hoàn chỉnh, tối ưu hiệu năng, rà soát bảo mật đầy đủ, triển khai công khai
 
@@ -158,5 +162,5 @@ Ghi chú: thay đổi so với thiết kế BT1 nằm ở `docs/thay-doi-thiet-k
 ## 7. Hạn chế đã biết
 
 - `npm audit` ở `src/frontend` báo lỗ hổng mức vừa liên quan tới máy chủ phát triển của Vite/esbuild và `react-router`; sửa dứt điểm cần nâng Vite lên phiên bản lớn, để dành cho Bài tập 3. Giao diện chỉ chạy ở chế độ phát triển, không triển khai công khai.
-- Token đăng nhập lưu trong `localStorage` của trình duyệt (đủ cho mức cơ bản của BT2).
+- **Cách lưu token và hạn chế:** token đăng nhập lưu trong `localStorage` (khoá `warranty.token`). Đủ cho mức prototype nhưng mã JavaScript chèn vào trang (XSS) đọc được token; giao diện này không hiển thị nội dung người dùng nhập mà chưa được React thoát ký tự, nên rủi ro được giữ ở mức thấp. Hướng cải thiện: cookie HttpOnly do máy chủ đặt (cần cấu hình CORS), để dành cho Bài tập 3. Khi nhận 401, giao diện tự xoá token và chuyển về trang đăng nhập.
 - Chưa thử trên MySQL 8 (chỉ MariaDB 10.11).
