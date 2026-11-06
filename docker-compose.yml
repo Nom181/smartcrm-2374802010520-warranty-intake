@@ -1,0 +1,48 @@
+﻿# docker-compose.yml - dựng cả hệ thống (MariaDB + API + giao diện) bằng:
+#   cp .env.example .env
+#   docker compose up -d --build
+# Giao diện: http://localhost:8080   API: http://localhost:3000/api/health
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-doi-mat-khau-nay}
+      MARIADB_DATABASE: ${DB_NAME:-warranty_intake}
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  api:
+    build: .
+    environment:
+      PORT: 3000
+      APP_TIMEZONE: ${APP_TIMEZONE:-Asia/Ho_Chi_Minh}
+      DB_HOST: db          # tên dịch vụ, KHÔNG phải 127.0.0.1
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD:-doi-mat-khau-nay}
+      DB_NAME: ${DB_NAME:-warranty_intake}
+      AUTH_SECRET: "${AUTH_SECRET:?Chua co AUTH_SECRET, hay chay cp .env.example .env}"
+      TOKEN_TTL_HOURS: ${TOKEN_TTL_HOURS:-8}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${API_PORT:-3000}:3000"
+    restart: unless-stopped
+
+  web:
+    build: ./src/frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  dbdata:
