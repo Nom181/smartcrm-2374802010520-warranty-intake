@@ -29,14 +29,14 @@ describe('[TÍCH HỢP] migration + seed + repository MySQL thật', () => {
   });
   after(async () => { if (db) await db.close(); });
 
-  test('migrate từ CSDL trống thành công, rồi chạy lại lần hai không lỗi', () => {
+  test('TC-12a migrate từ CSDL trống thành công, rồi chạy lại lần hai không lỗi', () => {
     const first = run('migrate.js');
     assert.equal(first.status, 0, first.stderr);
     const second = run('migrate.js');
     assert.equal(second.status, 0, second.stderr);
   });
 
-  test('seed chạy hai lần: số dòng không đổi (không nhân đôi dữ liệu)', async () => {
+  test('TC-12b seed chạy hai lần: số dòng không đổi (không nhân đôi dữ liệu)', async () => {
     assert.equal(run('seed.js').status, 0);
     db = createDb(config.db);
     const count = async (table) => Number((await db.query(`SELECT COUNT(*) AS n FROM ${table}`))[0].n);
@@ -52,7 +52,7 @@ describe('[TÍCH HỢP] migration + seed + repository MySQL thật', () => {
     assert.equal(before1.sla_rule, 9);
   });
 
-  test('luồng đầy đủ trên repository MySQL thật: tạo -> phân loại -> ưu tiên -> sinh hạn, kèm lịch sử', async () => {
+  test('TC-02 luồng đầy đủ trên repository MySQL thật: tạo -> phân loại -> ưu tiên -> sinh hạn, kèm lịch sử', async () => {
     services = buildServices(db, config);
     const c = await services.customers.create({ phone: '0907070707', fullName: 'Kiểm Thử Tích Hợp', email: null });
     const d = await services.devices.create({ serialNo: 'SN-INTEG-01', modelName: 'Mekong X1', purchaseDate: '2026-01-15' });
