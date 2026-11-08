@@ -50,3 +50,16 @@ Ba lỗi đã gỡ trong Giai đoạn 2, mỗi mục đủ bảy dòng theo mẫ
 | 5. Nguyên nhân | Validator và giao diện đo độ dài bằng `String.length`, tính theo đơn vị UTF-16; một emoji gồm 2 đơn vị nên bị tính là 2 ký tự, trong khi QT9 nói "tối đa 1000 ký tự" |
 | 6. Cách sửa | `validators/common.js`: thêm `charLength()` đếm theo code point (`[...str].length`), dùng trong `requiredString` và `optionalString`; `NewRequestPage.jsx`: bỏ `maxLength`, cắt và đếm theo code point; thêm test hồi quy `tests/06-bug-issue-desc-emoji.test.js` |
 | 7. Commit và xác nhận | https://github.com/Nom181/smartcrm-2374802010520-warranty-intake/commit/aa76a6707f2e272120fcddcbef6884a0b573ac39 · sau khi sửa 2/2 test mới PASS và toàn bộ `npm test` đạt 58/58 (ảnh `docs/screenshots/BUG-004-after.png`) |
+
+
+## BUG-005 · Minor – Mô tả lỗi dài không có dấu cách tràn ra ngoài khung ở trang chi tiết
+
+| Dòng | Nội dung |
+|---|---|
+| 1. Mã và mức độ | BUG-005 · Minor (dữ liệu đúng, chỉ trình bày sai; đọc được bằng cách cuộn ngang) |
+| 2. Phát hiện bởi | Kiểm thử khám phá bằng tay trên giao diện Docker (http://localhost:8080): tạo phiếu với mô tả 900 chữ `a` liền nhau |
+| 3. Triệu chứng | Ở trang chi tiết phiếu, chuỗi dài đi xuyên qua mép phải của khung trắng và làm trang rộng ra ngoài màn hình (ảnh `docs/screenshots/BUG-005-before.png`) |
+| 4. Cách tái lập | Đăng nhập `staff01`, tạo phiếu với mô tả là 900 chữ `a` không có dấu cách (dán bằng Ctrl+V), mở trang chi tiết của phiếu đó |
+| 5. Nguyên nhân | Trang chi tiết dùng lưới `.facts` có cột phải là `1fr`, mà cột lưới mặc định không co nhỏ hơn độ rộng nội dung; `.pre { white-space: pre-wrap }` chỉ xuống dòng ở dấu cách nên một "từ" dài 900 ký tự kéo cột và cả trang rộng ra |
+| 6. Cách sửa | `src/frontend/src/styles.css`: thêm `min-width: 0` và `overflow-wrap: anywhere` cho `.facts dd` để cột được phép co lại và chuỗi dài tự xuống dòng |
+| 7. Commit và xác nhận | https://github.com/Nom181/smartcrm-2374802010520-warranty-intake/commit/1aba0de · dựng lại `docker compose up -d --build web`, mở lại cùng phiếu: chuỗi xuống dòng gọn trong khung (ảnh `docs/screenshots/BUG-005-after.png`) |
