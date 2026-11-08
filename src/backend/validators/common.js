@@ -22,7 +22,10 @@ function ensureObject(body) {
   }
   return body;
 }
-
+// Độ dài tính theo KÝ TỰ người dùng thấy (code point), không theo đơn vị UTF-16: một emoji là 1 ký tự, không phải 2.
+function charLength(str) {
+  return [...str].length;
+}
 // Chuỗi bắt buộc: cắt khoảng trắng hai đầu, độ dài trong [min, max].
 function requiredString(body, field, { min = 1, max, label }, loi) {
   const raw = body[field];
@@ -31,7 +34,7 @@ function requiredString(body, field, { min = 1, max, label }, loi) {
     return undefined;
   }
   const value = raw.trim();
-  if (value.length > max) {
+  if (charLength(value) > max) {
     loi.push({ truong: field, ly_do: `${label} tối đa ${max} ký tự` });
     return undefined;
   }
@@ -48,7 +51,7 @@ function optionalString(body, field, { max, label, pattern, patternMessage }, lo
   }
   const value = raw.trim();
   if (value === '') return null;
-  if (value.length > max) {
+  if (charLength(value) > max) {
     loi.push({ truong: field, ly_do: `${label} tối đa ${max} ký tự` });
     return null;
   }

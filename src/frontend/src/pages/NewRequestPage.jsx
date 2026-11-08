@@ -146,9 +146,9 @@ export default function NewRequestPage() {
         <h2>3. Mô tả lỗi</h2>
         <form onSubmit={submit}>
           <label>Mô tả lỗi (tối đa 1000 ký tự)
-            <textarea rows={4} value={issueDesc} maxLength={1000} disabled={!(customer && device)} onChange={(e) => setIssueDesc(e.target.value)} />
+            <textarea rows={4} value={issueDesc} disabled={!(customer && device)} onChange={(e) => setIssueDesc([...e.target.value].slice(0, 1000).join(''))} />
           </label>
-          <p className="muted">{issueDesc.length}/1000 ký tự</p>
+          <p className="muted">{[...issueDesc].length}/1000 ký tự</p>
           <ErrorBox error={submitError} />
           <button className="btn btn-primary" disabled={!(customer && device) || submitBusy || issueDesc.trim() === ''}>
             {submitBusy ? 'Đang tạo phiếu…' : 'Tạo phiếu'}
