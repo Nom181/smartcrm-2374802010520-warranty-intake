@@ -37,3 +37,16 @@ Ba lỗi đã gỡ trong Giai đoạn 2, mỗi mục đủ bảy dòng theo mẫ
 | 5. Nguyên nhân | `DELIMITER` là lệnh của chương trình dòng lệnh `mysql`, không phải câu SQL; thư viện `mysql2` gửi nguyên văn lên máy chủ nên máy chủ không hiểu |
 | 6. Cách sửa | Bỏ `DELIMITER`; khai báo chỉ mục ngay trong `CREATE TABLE` của `migrations/001_init_schema.sql` (vẫn `IF NOT EXISTS`, chạy lại không lỗi) |
 | 7. Commit và xác nhận | https://github.com/Nom181/smartcrm-2374802010520-warranty-intake/commit/58a4e80 · `npm run migrate` chạy hai lần không lỗi; `tests/integration/01-migration-seed-repo.test.js` (migration hai lần, seed hai lần không nhân đôi) PASS |
+
+
+## BUG-004 · Minor – Giới hạn 1000 ký tự của mô tả lỗi đếm emoji là 2 ký tự
+
+| Dòng | Nội dung |
+|---|---|
+| 1. Mã và mức độ | BUG-004 · Minor (dữ liệu không sai, người dùng có cách khác là rút ngắn nội dung) |
+| 2. Phát hiện bởi | Rà soát mã nguồn khi chuẩn bị BT3, rồi tái hiện bằng test tự động ở biên QT9 |
+| 3. Triệu chứng | Mô tả lỗi 501 emoji (501 ký tự, còn xa mức 1000) bị từ chối với thông báo "tối đa 1000 ký tự"; 1000 emoji cũng bị từ chối. Trên giao diện, ô nhập dừng ở 500 emoji |
+| 4. Cách tái lập | `node --test tests/06-bug-issue-desc-emoji.test.js` trước khi sửa: test "1000 emoji là HỢP LỆ" FAIL (ảnh `docs/screenshots/BUG-004-before.png`) |
+| 5. Nguyên nhân | Validator và giao diện đo độ dài bằng `String.length`, tính theo đơn vị UTF-16; một emoji gồm 2 đơn vị nên bị tính là 2 ký tự, trong khi QT9 nói "tối đa 1000 ký tự" |
+| 6. Cách sửa | `validators/common.js`: thêm `charLength()` đếm theo code point (`[...str].length`), dùng trong `requiredString` và `optionalString`; `NewRequestPage.jsx`: bỏ `maxLength`, cắt và đếm theo code point; thêm test hồi quy `tests/06-bug-issue-desc-emoji.test.js` |
+| 7. Commit và xác nhận | https://github.com/Nom181/smartcrm-2374802010520-warranty-intake/commit/aa76a6707f2e272120fcddcbef6884a0b573ac39 · sau khi sửa 2/2 test mới PASS và toàn bộ `npm test` đạt 58/58 (ảnh `docs/screenshots/BUG-004-after.png`) |
