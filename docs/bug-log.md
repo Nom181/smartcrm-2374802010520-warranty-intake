@@ -63,3 +63,16 @@ Ba lỗi đã gỡ trong Giai đoạn 2, mỗi mục đủ bảy dòng theo mẫ
 | 5. Nguyên nhân | Trang chi tiết dùng lưới `.facts` có cột phải là `1fr`, mà cột lưới mặc định không co nhỏ hơn độ rộng nội dung; `.pre { white-space: pre-wrap }` chỉ xuống dòng ở dấu cách nên một "từ" dài 900 ký tự kéo cột và cả trang rộng ra |
 | 6. Cách sửa | `src/frontend/src/styles.css`: thêm `min-width: 0` và `overflow-wrap: anywhere` cho `.facts dd` để cột được phép co lại và chuỗi dài tự xuống dòng |
 | 7. Commit và xác nhận | https://github.com/Nom181/smartcrm-2374802010520-warranty-intake/commit/1aba0de · dựng lại `docker compose up -d --build web`, mở lại cùng phiếu: chuỗi xuống dòng gọn trong khung (ảnh `docs/screenshots/BUG-005-after.png`) |
+
+
+## BUG-006 · Major – `page` quá lớn làm các danh sách trả HTTP 500
+
+| Dòng | Nội dung |
+|---|---|
+| 1. Mã và mức độ | BUG-006 · Major (đầu vào sai của người gọi gây lỗi máy chủ 500 ở cả ba danh sách; dùng bình thường vẫn được nên chưa phải Critical) |
+| 2. Phát hiện bởi | Rà soát mã nguồn thấy `page` không có giới hạn trên, rồi kiểm chứng trên hệ thống Docker chạy CSDL MariaDB thật |
+| 3. Triệu chứng | `GET /api/requests?page=99999999999999999999` trả `HTTP/1.1 500` với `{"error":"LOI_HE_THONG"}`; cùng danh sách với `page=100000` trả 200 và danh sách rỗng (ảnh `docs/screenshots/BUG-006-before.png`, `BUG-006-reference-200.png`) |
+| 4. Cách tái lập | Đăng nhập `staff01` lấy token, gọi `GET /api/requests?page=99999999999999999999` kèm `Authorization: Bearer <token>`; lỗi tương tự ở `/customers` và `/devices` vì cùng dùng `parsePaging` |
+| 5. Nguyên nhân | `parsePaging` chỉ kiểm tra `page` là số nguyên ≥ 1, không có giới hạn trên; `(page − 1) × pageSize` thành `2e+21`, câu SQL thành `LIMIT 20 OFFSET 2e+21` mà MariaDB không chấp nhận, nên lỗi rơi vào nhánh "lỗi không lường trước" (500) |
+| 6. Cách sửa | `src/backend/validators/common.js`: thêm hằng `MAX_PAGE = 1000000`; `page` ngoài `[1, MAX_PAGE]` bị từ chối bằng `400 DU_LIEU_KHONG_HOP_LE` nêu đúng trường `page`; thêm test hồi quy `tests/07-bug-paging-overflow.test.js` |
+| 7. Commit và xác nhận | https://github.com/Nom181/smartcrm-2374802010520-warranty-intake/commit/020c02a · test mới FAIL 2/2 trước khi sửa (`BUG-006-test-before.png`) và PASS 2/2 sau khi sửa, toàn bộ `npm test` 60/60 (`BUG-006-test-after.png`); gọi lại cùng lệnh trên hệ thống Docker trả 400 `DU_LIEU_KHONG_HOP_LE` trường `page` (`BUG-006-after.png`) |
