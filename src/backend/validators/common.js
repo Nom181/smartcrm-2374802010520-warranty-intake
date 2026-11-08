@@ -80,14 +80,20 @@ function parseId(raw, field = 'id') {
 }
 
 // Phân trang: page >= 1, pageSize trong [1, 100].
+// Phân trang: page trong [1, MAX_PAGE], pageSize trong [1, 100].
+// MAX_PAGE chặn số quá lớn làm OFFSET thành dạng khoa học (2e+21) khiến CSDL báo lỗi -> 500.
+const MAX_PAGE = 1000000;
 function parsePaging(query, loi, defaults = { page: 1, pageSize: 20 }) {
   let page = defaults.page;
   let pageSize = defaults.pageSize;
   if (query.page !== undefined) {
     page = /^\d+$/.test(String(query.page)) ? Number(query.page) : NaN;
-    if (!(page >= 1)) { loi.push({ truong: 'page', ly_do: 'phải là số nguyên từ 1' }); page = defaults.page; }
+    if (!(page >= 1 && page <= MAX_PAGE)) {
+      loi.push({ truong: 'page', ly_do: `phải là số nguyên từ 1 đến ${MAX_PAGE}` });
+      page = defaults.page;
+    }
   }
-  if (query.pageSize !== undefined) {
+    if (query.pageSize !== undefined) {
     pageSize = /^\d+$/.test(String(query.pageSize)) ? Number(query.pageSize) : NaN;
     if (!(pageSize >= 1 && pageSize <= 100)) {
       loi.push({ truong: 'pageSize', ly_do: 'phải là số nguyên từ 1 đến 100' });
