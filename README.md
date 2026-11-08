@@ -1,7 +1,7 @@
 # Smart CRM – Tiếp nhận và phân loại yêu cầu bảo hành (luồng L2, track SE)
 
 **Sinh viên:** Võ Minh Triều – MSSV 2374802010520 · Chuyên đề Tốt nghiệp 1 – ĐH Văn Lang
-**Phiên bản nộp Bài tập 2:** tag `v0.2`
+**Phiên bản nộp Bài tập 3:** tag `v1.0`
 
 ## 1. Hệ thống làm gì
 
@@ -17,6 +17,21 @@ Công nghệ: Node.js + Express (backend), MySQL/MariaDB, React + Vite (frontend
 - Cổng trống: 3000 (API), 5173 (giao diện), 3306 (CSDL)
 - Biến môi trường: xem `.env.example` (PORT, APP_TIMEZONE, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, AUTH_SECRET, TOKEN_TTL_HOURS)
 
+## Chạy nhanh bằng Docker (khuyến nghị, hai lệnh)
+
+Cần Docker Desktop (hoặc Docker Engine + Compose). Từ thư mục gốc của repo:
+
+```
+cp .env.example .env
+```
+
+```
+docker compose up -d --build
+```
+
+Mở http://localhost:8080 và đăng nhập `staff01` / `Demo@2026`. Kiểm tra API còn sống: `curl localhost:3000/api/health` → `{"status":"ok","db":"up"}`. Nếu cổng 3000 bị chiếm, đặt `API_PORT=3001` trong `.env`.
+
+Tài liệu: [Deployment Guide](docs/deployment-guide.md) · [API](docs/api.md) · [Test Plan](docs/test-plan.md) · [Test Report](docs/test-report.md) · [Bug Log](docs/bug-log.md) · [Security Checklist](docs/security-checklist.md)
 ## 3. Dựng lại hệ thống từ đầu
 
 Chạy lần lượt từng lệnh, từ thư mục gốc của repo. Không cần thao tác nào ngoài các lệnh này.
