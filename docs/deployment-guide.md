@@ -62,7 +62,11 @@ Log in with `staff01` or `manager01`; the demo password is `Demo@2026` (seed dat
    curl localhost:3000/api/health
    ```
 3. Open http://localhost:8080, log in as `staff01`, and create a warranty request. It appears in the list with status `NEW`.
-4. Re-run safety: restart the API and check that the data is not duplicated (the seed runs again but adds nothing).
+4. Run the automated test suite inside the container. Expected: `tests 60`, `pass 60`, `fail 0`. The tests use in-memory fake repositories, so they never touch the demo data.
+   ```
+   docker compose exec api npm test
+   ```
+5. Re-run safety: restart the API and check that the data is not duplicated (the seed runs again but adds nothing).
    ```
    docker compose restart api
    ```
@@ -77,3 +81,12 @@ Log in with `staff01` or `manager01`; the demo password is `Demo@2026` (seed dat
 | Rebuild after code changes | `docker compose up -d --build` |
 
 Known issue on a developer machine: `ports are not available ... 0.0.0.0:3000`. Another program (or a stale Docker/Windows socket) holds port 3000. Use another host port, for example on Windows PowerShell: `$env:API_PORT=3001; docker compose up -d --build`, or write `API_PORT=3001` into `.env`.
+
+## 6. Going to a real deployment (HTTPS)
+
+The prototype listens on plain HTTP at `localhost`, which is fine for local testing only. In a real deployment:
+
+- Put a reverse proxy with a real TLS certificate (for example nginx or Caddy) in front of the `web` service, and expose only port 443. Do not publish the API port.
+- The login token is sent in the `Authorization` header, so it must never travel over plain HTTP.
+- The web UI and the API are served from the same origin (nginx forwards `/api` to `api`), so no CORS setup is needed. If the UI is ever hosted on another domain, allow only that exact origin; never `*`.
+- Change `AUTH_SECRET`, `DB_PASSWORD` and the demo password `Demo@2026` before going live, and keep the real `.env` out of Git.

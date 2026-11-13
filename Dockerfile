@@ -11,6 +11,11 @@ COPY src/backend ./src/backend
 COPY migrations ./migrations
 COPY seeds ./seeds
 
+# Bộ kiểm thử chạy ngay trong container: docker compose exec api npm test
+# (dùng node:test có sẵn của Node, không cần thư viện dev; repository giả nên không đụng dữ liệu thật)
+COPY package.json ./package.json
+COPY tests ./tests
+
 # Chạy bằng người dùng thường, không dùng root
 USER node
 EXPOSE 3000
