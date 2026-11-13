@@ -15,12 +15,15 @@ Công cụ AI duy nhất em dùng ở Bài tập 3 là Claude (Anthropic), Claud
 | 5 | BUG-005 (`1aba0de`): mô tả dài không có dấu cách tràn khung | Em phát hiện bằng cách thử tay trên giao diện Docker; AI chỉ ra nguyên nhân CSS (cột lưới `1fr` không co) và đề xuất dòng sửa | Em dán chuỗi 900 ký tự `a`, chụp ảnh lỗi, tự sửa `styles.css`, dựng lại `web`, chụp ảnh sau khi sửa, tự commit |
 | 6 | BUG-006 (`020c02a`): `page` quá lớn trả HTTP 500 | AI nghi ngờ từ việc đọc mã `parsePaging` và đề xuất cách kiểm chứng và cách sửa | Em tự gọi API thật bằng `curl.exe`, thấy 500 trên hệ thống Docker (CSDL MariaDB thật); tự thêm test hồi quy, tự sửa, dựng lại `api`, gọi lại thấy 400, tự commit |
 | 7 | Hướng dẫn thao tác từng bước (lệnh Git, PowerShell, Docker) | AI soạn lệnh và giải thích từng bước | Em tự gõ và chạy từng lệnh, gửi lại ảnh kết quả; lệnh nào lỗi em báo lại để sửa |
+| 8 | Chỉnh sửa sau khi đối chiếu với tiêu chí chính thức (slide Buổi 15–16): nâng `body-parser` (commit `b3148e9`), chạy test trong container (`523ba73`), viết lại `docs/security-checklist.md` đúng bảy mục (`d8f85b2`) | AI đối chiếu repo với slide, chạy `npm audit` trên bản sao để tìm lỗ hổng, soạn Dockerfile/`.dockerignore` mới, mục HTTPS trong Deployment Guide và bản checklist mới | Em tự chạy lại trên máy em: `docker compose down -v` rồi `up -d --build`; `docker compose exec api npm test` (60 PASS); sau khi tạo phiếu và cố tình đăng nhập sai, `docker compose logs api` lọc `password|token|số điện thoại` không in dòng nào; `npm audit` ở `src/backend` (0 lỗ hổng) và `src/frontend` (còn 5, em ghi "chưa làm" ở mục 7 kèm kế hoạch); em tự chụp ảnh và tự commit |
 
 ## Những chỗ AI sai hoặc em phải sửa
 
 - `docker-compose.yml` bản đầu có lỗi cú pháp YAML ở dòng `AUTH_SECRET` (chuỗi có `chạy: cp` chứa dấu hai chấm kèm khoảng trắng); em chạy `docker compose ps` thấy lỗi `mapping values are not allowed`, AI sửa bằng cách đặt chuỗi trong dấu nháy kép.
 - Cổng 3000 trên máy em bị chiếm nên Docker báo "ports are not available"; AI bổ sung biến `API_PORT` để đổi cổng. Sau đó có một lần `api` không tìm ra `db` (`EAI_AGAIN`), em chạy `docker compose down` rồi `up -d` để dựng lại mạng thì hết.
 - Khi AI hướng dẫn thay đoạn `parsePaging` (BUG-006), em thay thừa nên khối kiểm tra `pageSize` bị mất; `npm test` báo 1 test FAIL, em dán lại khối đó và test trở lại 60 PASS. Nhờ có test nên lỗi này được phát hiện trước khi commit.
+- Checklist bảo mật bản đầu do AI soạn không khớp bảy mục chính thức của thầy (thiếu mục nhật ký và mục phụ thuộc, lại có hai mục thừa). Sau khi em có slide Buổi 15, AI viết lại đúng bảy mục.
+- Dockerfile bản đầu loại thư mục `tests` khỏi image nên `docker compose exec api npm test` không chạy được trên máy trắng; AI sửa sau khi đối chiếu với slide Buổi 16.
 - AI nhận định mức độ BUG-006 là Major kèm lý do; em đã đọc lý do đó trước khi ghi vào Bug Log.
 
 ## Điều em xác nhận
